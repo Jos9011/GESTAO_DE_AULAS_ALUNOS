@@ -1,35 +1,29 @@
-# Gestor de Aulas & HD Externo (React + Java Spring Boot)
+# Gestor de Aulas • Portal do Aluno (Estudos & Revisão)
 
-Sistema Full-Stack para navegação, organização e execução de materiais de aulas (vídeos, PDFs, slides, apostilas e documentos) armazenados em **HD Externo** ou discos locais, com recurso de **abertura em 1 clique**.
+Sistema Full-Stack para **Estudantes e Alunos** organizarem seus cursos e matérias a partir de arquivos armazenados em **HD Externo** ou discos locais, com **player acelerado de vídeo, leitor de PDF, caderno de anotações e progresso de conclusão**.
 
 ---
 
-## 🎯 Funcionalidades Principais
+## 🎯 Funcionalidades Principais para o Aluno
 
-1. **Explorador do HD Externo**:
-   - Detecção automática de discos e unidades (`C:\`, `D:\`, `E:\`, etc.).
-   - Navegação por pastas com suporte a colar ou digitar caminhos personalizados.
-   - Filtros rápidos por tipo de material:
-     - 🎬 **Vídeos**: `.mp4`, `.mkv`, `.avi`, `.mov`, `.wmv`
-     - 📄 **PDFs**: Apostilas, livros e exercícios
-     - 📊 **Slides**: `.ppt`, `.pptx`, `.odp`
-     - 📝 **Documentos**: `.docx`, `.doc`, `.txt`, `.md`
-     - 🎵 **Áudios**: `.mp3`, `.wav`, `.m4a`
-   - **Execução Imediata**: Botão para abrir qualquer arquivo diretamente no Windows usando o player ou leitor padrão (ex: VLC, Acrobat, PowerPoint).
-   - Botão para abrir a pasta no **Windows Explorer**.
+1. **Player Interno de Vídeo com Aceleração**:
+   - Assista às videoaulas gravadas em velocidade `1.0x`, `1.25x`, `1.5x`, `1.75x` ou `2.0x`.
+   - Botões de avançar e retroceder `10 segundos`.
+   - Streaming por partes (`HTTP 206 Partial Content`) para navegar por vídeos pesados sem travamento.
 
-2. **Criação e Gestão de Aulas**:
-   - Seleção prática de múltiplos arquivos diretamente enquanto navega pelas pastas do HD.
-   - Bandeja flutuante que contabiliza os arquivos selecionados.
-   - Cadastro de aula com **Título**, **Matéria / Disciplina** e **Anotações de estudo**.
+2. **Leitor de PDF & Apostilas Integrado**:
+   - Visualize os PDFs e apostilas da aula diretamente no navegador, lado a lado com suas anotações.
 
-3. **▶ Abertura de Aula com 1 Clique**:
-   - Na aba **Minhas Aulas**, cada aula possui o botão destacado **"ABRIR AULA (1 CLIQUE)"**.
-   - Ao clicar, o sistema dispara automaticamente a execução de todos os vídeos, slides e PDFs daquela aula no Windows de forma sequencial.
-   - Acesso individual a cada material da aula a qualquer momento.
+3. **Caderno de Anotações & Resumos**:
+   - Escreva seus resumos, fórmulas e insights durante a aula e salve com 1 clique junto com a matéria.
 
-4. **Persistência dos Dados**:
-   - As aulas criadas ficam salvas localmente em arquivo JSON (`aulas-db.json`), garantindo que suas aulas permaneçam salvas mesmo após reiniciar o computador.
+4. **Controle de Progresso de Estudos**:
+   - Marque a aula como **Concluída** ao terminar de assistir.
+   - Barra de porcentagem de conclusão geral e por disciplina no Painel Inicial.
+   - Filtro de aulas **⭐ Favoritas**, **✅ Concluídas** e **⏳ Em Andamento**.
+
+5. **▶ Abertura de Aula com 1 Clique no Windows**:
+   - Se preferir, com 1 clique o sistema abre todos os arquivos da aula em seus reprodutores nativos do Windows (VLC, Adobe, PowerPoint).
 
 ---
 

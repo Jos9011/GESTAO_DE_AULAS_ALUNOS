@@ -10,8 +10,8 @@ export default function Header({ activeTab, setActiveTab, backendOnline, totalAu
             <HardDrive size={26} />
           </div>
           <div>
-            <h1 className="brand-title">Gestor de Aulas & HD</h1>
-            <p className="brand-subtitle">Organize e abra seus arquivos de aula com 1 clique</p>
+            <h1 className="brand-title">Gestor de Aulas • Aluno</h1>
+            <p className="brand-subtitle">Organize seus estudos, assista aulas e anote com 1 clique</p>
           </div>
         </div>
 
