@@ -53,6 +53,28 @@ public class AulaController {
         return ResponseEntity.notFound().build();
     }
 
+    @PatchMapping("/{id}/toggle-concluida")
+    public ResponseEntity<Aula> alternarConclusao(@PathVariable String id) {
+        return aulaService.alternarConclusao(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}/toggle-favorita")
+    public ResponseEntity<Aula> alternarFavorita(@PathVariable String id) {
+        return aulaService.alternarFavorita(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/anotacoes")
+    public ResponseEntity<Aula> salvarAnotacoes(@PathVariable String id, @RequestBody Map<String, String> payload) {
+        String texto = payload.getOrDefault("anotacoes", "");
+        return aulaService.salvarAnotacoes(id, texto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/{id}/abrir-todos")
     public ResponseEntity<Map<String, Object>> abrirTodosArquivos(@PathVariable String id) {
         return ResponseEntity.ok(aulaService.abrirTodosArquivos(id));

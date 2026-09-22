@@ -88,3 +88,38 @@ export async function abrirAulaCompleta(id) {
   if (!res.ok) throw new Error('Erro ao disparar abertura dos arquivos da aula');
   return res.json();
 }
+
+export async function toggleConcluida(id) {
+  const res = await fetch(`${API_BASE_URL}/aulas/${id}/toggle-concluida`, {
+    method: 'PATCH',
+  });
+  if (!res.ok) throw new Error('Erro ao alterar status de conclusão');
+  return res.json();
+}
+
+export async function toggleFavorita(id) {
+  const res = await fetch(`${API_BASE_URL}/aulas/${id}/toggle-favorita`, {
+    method: 'PATCH',
+  });
+  if (!res.ok) throw new Error('Erro ao favoritar aula');
+  return res.json();
+}
+
+export async function salvarAnotacoes(id, anotacoes) {
+  const res = await fetch(`${API_BASE_URL}/aulas/${id}/anotacoes`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ anotacoes }),
+  });
+  if (!res.ok) throw new Error('Erro ao salvar anotações');
+  return res.json();
+}
+
+export function getStreamUrl(caminho) {
+  return `${API_BASE_URL}/explorador/stream?caminho=${encodeURIComponent(caminho)}`;
+}
+
+export function getVisualizarUrl(caminho) {
+  return `${API_BASE_URL}/explorador/visualizar?caminho=${encodeURIComponent(caminho)}`;
+}
+

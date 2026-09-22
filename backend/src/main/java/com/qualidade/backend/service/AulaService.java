@@ -124,6 +124,43 @@ public class AulaService {
         return resultado;
     }
 
+    public Optional<Aula> alternarConclusao(String id) {
+        Aula aula = aulasMap.get(id);
+        if (aula != null) {
+            boolean novoStatus = !aula.isConcluida();
+            aula.setConcluida(novoStatus);
+            if (novoStatus) {
+                aula.setDataConclusao(java.time.LocalDateTime.now()
+                        .format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            } else {
+                aula.setDataConclusao(null);
+            }
+            persistirEmArquivo();
+            return Optional.of(aula);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Aula> alternarFavorita(String id) {
+        Aula aula = aulasMap.get(id);
+        if (aula != null) {
+            aula.setFavorita(!aula.isFavorita());
+            persistirEmArquivo();
+            return Optional.of(aula);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Aula> salvarAnotacoes(String id, String anotacoes) {
+        Aula aula = aulasMap.get(id);
+        if (aula != null) {
+            aula.setAnotacoesEstudo(anotacoes);
+            persistirEmArquivo();
+            return Optional.of(aula);
+        }
+        return Optional.empty();
+    }
+
     public Map<String, Object> obterResumo() {
         int totalAulas = aulasMap.size();
         int totalArquivos = 0;
@@ -132,8 +169,24 @@ public class AulaService {
         int totalSlides = 0;
         int totalDocs = 0;
         int totalOutros = 0;
+        int totalConcluidas = 0;
+        int totalFavoritas = 0;
+
+        Map<String, int[]> materiasStats = new HashMap<>(); // [total, concluidas]
 
         for (Aula aula : aulasMap.values()) {
+            if (aula.isConcluida()) totalConcluidas++;
+            if (aula.isFavorita()) totalFavoritas++;
+
+            String mat = (aula.getMateria() != null && !aula.getMateria().trim().isEmpty())
+                    ? aula.getMateria().trim()
+                    : "Geral";
+            materiasStats.putIfAbsent(mat, new int[]{0, 0});
+            materiasStats.get(mat)[0]++;
+            if (aula.isConcluida()) {
+                materiasStats.get(mat)[1]++;
+            }
+
             if (aula.getArquivos() != null) {
                 totalArquivos += aula.getArquivos().size();
                 for (ItemArquivo arq : aula.getArquivos()) {
@@ -159,11 +212,30 @@ public class AulaService {
                 .limit(4)
                 .collect(Collectors.toList());
 
+        int percentualConclusao = totalAulas > 0 ? (int) Math.round(((double) totalConcluidas / totalAulas) * 100) : 0;
+
+        List<Map<String, Object>> progressoMaterias = new ArrayList<>();
+        for (Map.Entry<String, int[]> entry : materiasStats.entrySet()) {
+            int tot = entry.getValue()[0];
+            int conc = entry.getValue()[1];
+            int pct = tot > 0 ? (int) Math.round(((double) conc / tot) * 100) : 0;
+            progressoMaterias.add(Map.of(
+                    "materia", entry.getKey(),
+                    "total", tot,
+                    "concluidas", conc,
+                    "percentual", pct
+            ));
+        }
+
         Map<String, Object> resumo = new HashMap<>();
         resumo.put("totalAulas", totalAulas);
         resumo.put("totalMateriais", totalArquivos);
         resumo.put("totalMaterias", materias.size());
         resumo.put("materias", materias);
+        resumo.put("totalConcluidas", totalConcluidas);
+        resumo.put("totalFavoritas", totalFavoritas);
+        resumo.put("percentualConclusao", percentualConclusao);
+        resumo.put("progressoMaterias", progressoMaterias);
         resumo.put("totalVideos", totalVideos);
         resumo.put("totalPdfs", totalPdfs);
         resumo.put("totalSlides", totalSlides);

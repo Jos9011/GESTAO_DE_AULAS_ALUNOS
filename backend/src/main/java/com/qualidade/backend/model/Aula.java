@@ -14,10 +14,16 @@ public class Aula {
     private List<ItemArquivo> arquivos = new ArrayList<>();
     private String dataCriacao;
     private int ordem;
+    private boolean concluida;
+    private boolean favorita;
+    private String dataConclusao;
+    private String anotacoesEstudo;
 
     public Aula() {
         this.id = UUID.randomUUID().toString();
         this.dataCriacao = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        this.concluida = false;
+        this.favorita = false;
     }
 
     public Aula(String titulo, String materia, String descricao, List<ItemArquivo> arquivos) {
@@ -84,5 +90,37 @@ public class Aula {
 
     public void setOrdem(int ordem) {
         this.ordem = ordem;
+    }
+
+    public boolean isConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(boolean concluida) {
+        this.concluida = concluida;
+    }
+
+    public boolean isFavorita() {
+        return favorita;
+    }
+
+    public void setFavorita(boolean favorita) {
+        this.favorita = favorita;
+    }
+
+    public String getDataConclusao() {
+        return dataConclusao;
+    }
+
+    public void setDataConclusao(String dataConclusao) {
+        this.dataConclusao = dataConclusao;
+    }
+
+    public String getAnotacoesEstudo() {
+        return anotacoesEstudo;
+    }
+
+    public void setAnotacoesEstudo(String anotacoesEstudo) {
+        this.anotacoesEstudo = anotacoesEstudo;
     }
 }

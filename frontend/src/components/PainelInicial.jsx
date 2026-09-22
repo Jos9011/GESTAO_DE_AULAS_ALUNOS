@@ -13,9 +13,13 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  Clock
+  Clock,
+  Star,
+  Trophy,
+  MonitorPlay
 } from 'lucide-react';
 import { getResumoAulas, getDiscos, abrirAulaCompleta } from '../services/api';
+import PlayerModal from './PlayerModal';
 
 export default function PainelInicial({
   onIrParaAulas,
@@ -27,6 +31,10 @@ export default function PainelInicial({
     totalAulas: 0,
     totalMateriais: 0,
     totalMaterias: 0,
+    totalConcluidas: 0,
+    totalFavoritas: 0,
+    percentualConclusao: 0,
+    progressoMaterias: [],
     totalVideos: 0,
     totalPdfs: 0,
     totalSlides: 0,
@@ -35,6 +43,7 @@ export default function PainelInicial({
   });
   const [discos, setDiscos] = useState([]);
   const [abrindoId, setAbrindoId] = useState(null);
+  const [aulaEmEstudo, setAulaEmEstudo] = useState(null);
 
   useEffect(() => {
     carregarResumo();
@@ -87,7 +96,7 @@ export default function PainelInicial({
         <div className="hero-text">
           <h2>Bem-vindo à sua Central de Aulas</h2>
           <p>
-            Organize os arquivos do seu HD externo por disciplinas, crie planos de estudo e abra tudo com apenas 1 clique.
+            Organize os arquivos do seu HD externo por disciplinas, crie planos de estudo e estude com player acelerado ou abra tudo no Windows com 1 clique.
           </p>
         </div>
 
@@ -100,6 +109,28 @@ export default function PainelInicial({
             <FolderSearch size={18} />
             <span>Explorar HD</span>
           </button>
+        </div>
+      </div>
+
+      {/* Barra de Progresso Geral de Conclusão */}
+      <div className="progresso-geral-banner">
+        <div className="progresso-geral-header">
+          <div className="progresso-geral-titulo">
+            <Trophy size={20} color="#f59e0b" />
+            <div>
+              <strong>Seu Progresso de Estudos</strong>
+              <span>
+                {resumo.totalConcluidas || 0} de {resumo.totalAulas || 0} aulas concluídas ({resumo.percentualConclusao || 0}%)
+              </span>
+            </div>
+          </div>
+          <span className="progresso-pct-grande">{resumo.percentualConclusao || 0}%</span>
+        </div>
+        <div className="progresso-barra-fundo">
+          <div
+            className="progresso-barra-preenchimento"
+            style={{ width: `${resumo.percentualConclusao || 0}%` }}
+          />
         </div>
       </div>
 
@@ -117,21 +148,21 @@ export default function PainelInicial({
 
         <div className="metrica-card">
           <div className="metrica-icon" style={{ background: 'rgba(16, 185, 129, 0.18)', color: '#34d399' }}>
-            <Layers size={24} />
+            <CheckCircle2 size={24} />
           </div>
           <div className="metrica-info">
-            <span className="metrica-rotulo">Materiais Vinculados</span>
-            <span className="metrica-valor">{resumo.totalMateriais}</span>
+            <span className="metrica-rotulo">Concluídas</span>
+            <span className="metrica-valor">{resumo.totalConcluidas || 0}</span>
           </div>
         </div>
 
         <div className="metrica-card">
-          <div className="metrica-icon" style={{ background: 'rgba(168, 85, 247, 0.18)', color: '#c084fc' }}>
-            <GraduationCap size={24} />
+          <div className="metrica-icon" style={{ background: 'rgba(245, 158, 11, 0.18)', color: '#f59e0b' }}>
+            <Star size={24} />
           </div>
           <div className="metrica-info">
-            <span className="metrica-rotulo">Disciplinas / Cursos</span>
-            <span className="metrica-valor">{resumo.totalMaterias}</span>
+            <span className="metrica-rotulo">Favoritas</span>
+            <span className="metrica-valor">{resumo.totalFavoritas || 0}</span>
           </div>
         </div>
 
@@ -153,7 +184,7 @@ export default function PainelInicial({
           <div className="secao-header">
             <div className="secao-titulo-wrapper">
               <Clock size={20} color="#3b82f6" />
-              <h3>Aulas Recentes (Acesso Rápido)</h3>
+              <h3>Aulas Recentes</h3>
             </div>
             {resumo.totalAulas > 0 && (
               <button className="btn-link" onClick={onIrParaAulas}>
@@ -175,6 +206,14 @@ export default function PainelInicial({
                         <span className="badge-materiais-count">
                           {aula.arquivos?.length || 0} materiais
                         </span>
+                        {aula.concluida && (
+                          <span className="badge-concluida-tag mini">
+                            <CheckCircle2 size={11} /> Concluída
+                          </span>
+                        )}
+                        {aula.favorita && (
+                          <span className="badge-star-mini">⭐</span>
+                        )}
                       </div>
                       <h4 className="aula-recente-nome">{aula.titulo}</h4>
                       {aula.descricao && (
@@ -182,15 +221,25 @@ export default function PainelInicial({
                       )}
                     </div>
 
-                    <button
-                      className={`btn-play-recente ${isAbrindo ? 'loading' : ''}`}
-                      onClick={() => handleAbrirAulaRapida(aula)}
-                      disabled={isAbrindo || !aula.arquivos?.length}
-                      title="Abrir todos os arquivos desta aula agora"
-                    >
-                      <Play size={16} fill="currentColor" />
-                      <span>{isAbrindo ? 'Abrindo...' : 'Abrir'}</span>
-                    </button>
+                    <div className="recente-botoes-grupo">
+                      <button
+                        className="btn-estudar-sm"
+                        onClick={() => setAulaEmEstudo(aula)}
+                        title="Assistir com player acelerado e anotações aqui"
+                      >
+                        <MonitorPlay size={15} />
+                        <span>Estudar</span>
+                      </button>
+                      <button
+                        className={`btn-play-recente ${isAbrindo ? 'loading' : ''}`}
+                        onClick={() => handleAbrirAulaRapida(aula)}
+                        disabled={isAbrindo || !aula.arquivos?.length}
+                        title="Abrir todos os arquivos desta aula no Windows"
+                      >
+                        <Play size={14} fill="currentColor" />
+                        <span>{isAbrindo ? '...' : 'Windows'}</span>
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -206,8 +255,36 @@ export default function PainelInicial({
           )}
         </div>
 
-        {/* Coluna Direita: Distribuição de Mídias e HDs */}
+        {/* Coluna Direita: Progresso por Matéria, Mídias e HDs */}
         <div className="painel-coluna-lateral">
+          {/* Progresso por Matéria */}
+          {resumo.progressoMaterias && resumo.progressoMaterias.length > 0 && (
+            <div className="painel-secao-card">
+              <div className="secao-header">
+                <div className="secao-titulo-wrapper">
+                  <GraduationCap size={20} color="#c084fc" />
+                  <h3>Progresso por Matéria</h3>
+                </div>
+              </div>
+
+              <div className="progresso-materias-lista">
+                {resumo.progressoMaterias.map((pm) => (
+                  <div key={pm.materia} className="progresso-materia-item">
+                    <div className="pm-info-row">
+                      <span className="pm-nome">{pm.materia}</span>
+                      <span className="pm-pct">
+                        {pm.concluidas}/{pm.total} ({pm.percentual}%)
+                      </span>
+                    </div>
+                    <div className="pm-barra-fundo">
+                      <div className="pm-barra-fill" style={{ width: `${pm.percentual}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Distribuição de Conteúdo */}
           <div className="painel-secao-card">
             <div className="secao-header">
@@ -268,19 +345,20 @@ export default function PainelInicial({
               ))}
             </div>
           </div>
-
-          {/* Dicas e Portabilidade */}
-          <div className="painel-dica-card">
-            <div className="dica-header">
-              <CheckCircle2 size={18} color="#10b981" />
-              <strong>Dica de Produtividade</strong>
-            </div>
-            <p>
-              Ao clicar em <strong>"ABRIR AULA"</strong>, o Windows inicia os vídeos no seu player preferido (ex: VLC) e abre as apostilas em PDF simultaneamente, deixando seu ambiente de estudo pronto instantaneamente!
-            </p>
-          </div>
         </div>
       </div>
+
+      {/* Modal do Player Integrado se acionado a partir do Painel */}
+      {aulaEmEstudo && (
+        <PlayerModal
+          aula={aulaEmEstudo}
+          onClose={() => setAulaEmEstudo(null)}
+          onAtualizada={() => {
+            carregarResumo();
+          }}
+          onAvisar={onAvisar}
+        />
+      )}
     </div>
   );
 }

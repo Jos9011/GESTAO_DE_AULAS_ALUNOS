@@ -5,18 +5,20 @@ echo ========================================================
 echo   Iniciando Backend Spring Boot (Porta 8080)...
 echo ========================================================
 
+:: Procura automaticamente JDK para garantir JAVA_HOME para o compilador Maven
+if not defined JAVA_HOME (
+    for /d %%J in ("%LOCALAPPDATA%\Programs\Java\jdk*" "%ProgramFiles%\Java\jdk*" "%ProgramFiles%\Eclipse Adoptium\jdk*") do (
+        if exist "%%~J\bin\javac.exe" (
+            set "JAVA_HOME=%%~J"
+            set "PATH=%%~J\bin;!PATH!"
+        )
+    )
+)
+
 :: 1. Verifica se 'java' já está no PATH do sistema
 where java >nul 2>nul
 if %errorlevel% equ 0 (
-    echo [OK] Java detectado no PATH do sistema.
-    goto :check_maven
-)
-
-:: 2. Procura automaticamente em pastas conhecidas do usuário ou programas
-if exist "%LOCALAPPDATA%\Programs\Java\jdk-25.0.2\bin\java.exe" (
-    set "JAVA_HOME=%LOCALAPPDATA%\Programs\Java\jdk-25.0.2"
-    set "PATH=!JAVA_HOME!\bin;!PATH!"
-    echo [OK] Java detectado em %LOCALAPPDATA%\Programs\Java.
+    echo [OK] Java detectado: %JAVA_HOME%
     goto :check_maven
 )
 

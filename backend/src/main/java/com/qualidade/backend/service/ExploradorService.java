@@ -172,5 +172,22 @@ public class ExploradorService {
             return false;
         }
     }
+
+    public String determinarContentType(String nomeArquivo) {
+        if (nomeArquivo == null) return "application/octet-stream";
+        String lower = nomeArquivo.toLowerCase();
+        if (lower.endsWith(".mp4")) return "video/mp4";
+        if (lower.endsWith(".webm")) return "video/webm";
+        if (lower.endsWith(".mkv")) return "video/x-matroska";
+        if (lower.endsWith(".mp3")) return "audio/mpeg";
+        if (lower.endsWith(".wav")) return "audio/wav";
+        if (lower.endsWith(".ogg")) return "audio/ogg";
+        if (lower.endsWith(".pdf")) return "application/pdf";
+        if (lower.endsWith(".png")) return "image/png";
+        if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
+        if (lower.endsWith(".txt")) return "text/plain; charset=UTF-8";
+        return "application/octet-stream";
+    }
 }
+
 
