@@ -1,0 +1,54 @@
+[ {
+  "id" : "e8b4cd23-a17e-4cab-9856-b4a6dec076b7",
+  "titulo" : "teste",
+  "materia" : "Geral",
+  "descricao" : "",
+  "arquivos" : [ {
+    "nome" : "PLANO DE TRABALHO DOCENTE.docx",
+    "caminhoCompleto" : "C:\\Users\\uxs4994\\Documents\\AULAS_GASTRONOMIA\\PLANO DE TRABALHO DOCENTE.docx",
+    "diretorio" : false,
+    "tamanhoBytes" : 25015,
+    "tamanhoFormatado" : "24.4 KB",
+    "extensao" : "docx",
+    "tipo" : "DOCUMENTO",
+    "dataModificacao" : "09/09/2026 11:08"
+  }, {
+    "nome" : "Essa dinâmica é ótima para apresentação.docx",
+    "caminhoCompleto" : "C:\\Users\\uxs4994\\Documents\\AULAS_GASTRONOMIA\\Essa dinâmica é ótima para apresentação.docx",
+    "diretorio" : false,
+    "tamanhoBytes" : 17544,
+    "tamanhoFormatado" : "17.1 KB",
+    "extensao" : "docx",
+    "tipo" : "DOCUMENTO",
+    "dataModificacao" : "09/09/2026 11:08"
+  }, {
+    "nome" : "Estudo de caso.docx",
+    "caminhoCompleto" : "C:\\Users\\uxs4994\\Documents\\AULAS_GASTRONOMIA\\Estudo de caso.docx",
+    "diretorio" : false,
+    "tamanhoBytes" : 1610556,
+    "tamanhoFormatado" : "1.5 MB",
+    "extensao" : "docx",
+    "tipo" : "DOCUMENTO",
+    "dataModificacao" : "09/09/2026 11:08"
+  }, {
+    "nome" : "teste.pdf",
+    "caminhoCompleto" : "C:\\Users\\uxs4994\\Documents\\AULAS_GASTRONOMIA\\teste.pdf",
+    "diretorio" : false,
+    "tamanhoBytes" : 61229,
+    "tamanhoFormatado" : "59.8 KB",
+    "extensao" : "pdf",
+    "tipo" : "PDF",
+    "dataModificacao" : "08/09/2026 10:37"
+  }, {
+    "nome" : "Plano de Aula 8h.docx",
+    "caminhoCompleto" : "C:\\Users\\uxs4994\\Documents\\AULAS_GASTRONOMIA\\Plano de Aula 8h.docx",
+    "diretorio" : false,
+    "tamanhoBytes" : 23847,
+    "tamanhoFormatado" : "23.3 KB",
+    "extensao" : "docx",
+    "tipo" : "DOCUMENTO",
+    "dataModificacao" : "09/09/2026 11:08"
+  } ],
+  "dataCriacao" : "22/09/2026 09:12",
+  "ordem" : 0
+} ]
